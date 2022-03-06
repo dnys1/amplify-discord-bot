@@ -1,5 +1,5 @@
 name: autothreader_bot
-description: Discord bot for automatically creating threads
+description: Discord bot for automatically creating threads and Github discussions
 version: 0.1.0
 publish_to: none
 
@@ -7,9 +7,20 @@ environment:
   sdk: '>=2.16.0 <3.0.0'
 
 dependencies:
+  built_collection: ^5.1.1
+  built_value: ^8.1.4
+  gql: ^0.13.0
+  gql_exec: ^0.4.0
+  gql_http_link: ^0.4.2
+  gql_transform_link: ^0.2.2
   intl: ^0.17.0
   logging: ^1.0.2
   nyxx: ^3.2.7
 
 dev_dependencies:
+  args: ^2.3.0
+  build_runner: ^2.0.0
+  built_value_generator: ^8.1.4
+  gql_build: ^0.4.0
   lints: ^1.0.0
+  recase: ^4.0.0
