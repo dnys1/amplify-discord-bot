@@ -73,4 +73,27 @@ class GithubClient {
 
     return GGetRepositoryData.fromJson(data)!;
   }
+
+  Future<void> resolveDiscussion({
+    required String commentId,
+    String? clientMutationId,
+  }) async {
+    final req = GResolveDiscussion(
+      (b) => b.vars
+        ..commentId = commentId
+        ..clientMutationId = clientMutationId,
+    );
+    final resp = await client
+        .request(Request(
+          operation: req.operation,
+          variables: req.vars.toJson(),
+        ))
+        .first;
+
+    final data = resp.data;
+    final errors = resp.errors;
+    if (data == null || (errors != null && errors.isNotEmpty)) {
+      throwError(resp);
+    }
+  }
 }

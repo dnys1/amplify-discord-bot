@@ -30,6 +30,16 @@ Serializer<GAddDiscussionCommentData_addDiscussionComment>
 Serializer<GAddDiscussionCommentData_addDiscussionComment_comment>
     _$gAddDiscussionCommentDataAddDiscussionCommentCommentSerializer =
     new _$GAddDiscussionCommentData_addDiscussionComment_commentSerializer();
+Serializer<GResolveDiscussionData> _$gResolveDiscussionDataSerializer =
+    new _$GResolveDiscussionDataSerializer();
+Serializer<GResolveDiscussionData_markDiscussionCommentAsAnswer>
+    _$gResolveDiscussionDataMarkDiscussionCommentAsAnswerSerializer =
+    new _$GResolveDiscussionData_markDiscussionCommentAsAnswerSerializer();
+Serializer<GDeleteDiscussionData> _$gDeleteDiscussionDataSerializer =
+    new _$GDeleteDiscussionDataSerializer();
+Serializer<GDeleteDiscussionData_deleteDiscussion>
+    _$gDeleteDiscussionDataDeleteDiscussionSerializer =
+    new _$GDeleteDiscussionData_deleteDiscussionSerializer();
 Serializer<GGetRepositoryData> _$gGetRepositoryDataSerializer =
     new _$GGetRepositoryDataSerializer();
 Serializer<GGetRepositoryData_repository>
@@ -586,6 +596,223 @@ class _$GAddDiscussionCommentData_addDiscussionComment_commentSerializer
           break;
         case 'id':
           result.id = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GResolveDiscussionDataSerializer
+    implements StructuredSerializer<GResolveDiscussionData> {
+  @override
+  final Iterable<Type> types = const [
+    GResolveDiscussionData,
+    _$GResolveDiscussionData
+  ];
+  @override
+  final String wireName = 'GResolveDiscussionData';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GResolveDiscussionData object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      '__typename',
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.markDiscussionCommentAsAnswer;
+    if (value != null) {
+      result
+        ..add('markDiscussionCommentAsAnswer')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                GResolveDiscussionData_markDiscussionCommentAsAnswer)));
+    }
+    return result;
+  }
+
+  @override
+  GResolveDiscussionData deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GResolveDiscussionDataBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case '__typename':
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'markDiscussionCommentAsAnswer':
+          result.markDiscussionCommentAsAnswer.replace(serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(
+                      GResolveDiscussionData_markDiscussionCommentAsAnswer))!
+              as GResolveDiscussionData_markDiscussionCommentAsAnswer);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GResolveDiscussionData_markDiscussionCommentAsAnswerSerializer
+    implements
+        StructuredSerializer<
+            GResolveDiscussionData_markDiscussionCommentAsAnswer> {
+  @override
+  final Iterable<Type> types = const [
+    GResolveDiscussionData_markDiscussionCommentAsAnswer,
+    _$GResolveDiscussionData_markDiscussionCommentAsAnswer
+  ];
+  @override
+  final String wireName =
+      'GResolveDiscussionData_markDiscussionCommentAsAnswer';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers,
+      GResolveDiscussionData_markDiscussionCommentAsAnswer object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      '__typename',
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GResolveDiscussionData_markDiscussionCommentAsAnswer deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result =
+        new GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case '__typename':
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GDeleteDiscussionDataSerializer
+    implements StructuredSerializer<GDeleteDiscussionData> {
+  @override
+  final Iterable<Type> types = const [
+    GDeleteDiscussionData,
+    _$GDeleteDiscussionData
+  ];
+  @override
+  final String wireName = 'GDeleteDiscussionData';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GDeleteDiscussionData object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      '__typename',
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.deleteDiscussion;
+    if (value != null) {
+      result
+        ..add('deleteDiscussion')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(GDeleteDiscussionData_deleteDiscussion)));
+    }
+    return result;
+  }
+
+  @override
+  GDeleteDiscussionData deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GDeleteDiscussionDataBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case '__typename':
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'deleteDiscussion':
+          result.deleteDiscussion.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(GDeleteDiscussionData_deleteDiscussion))!
+              as GDeleteDiscussionData_deleteDiscussion);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GDeleteDiscussionData_deleteDiscussionSerializer
+    implements StructuredSerializer<GDeleteDiscussionData_deleteDiscussion> {
+  @override
+  final Iterable<Type> types = const [
+    GDeleteDiscussionData_deleteDiscussion,
+    _$GDeleteDiscussionData_deleteDiscussion
+  ];
+  @override
+  final String wireName = 'GDeleteDiscussionData_deleteDiscussion';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GDeleteDiscussionData_deleteDiscussion object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      '__typename',
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GDeleteDiscussionData_deleteDiscussion deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GDeleteDiscussionData_deleteDiscussionBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case '__typename':
+          result.G__typename = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
       }
@@ -1946,6 +2173,438 @@ class GAddDiscussionCommentData_addDiscussionComment_commentBuilder
                 id,
                 'GAddDiscussionCommentData_addDiscussionComment_comment',
                 'id'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GResolveDiscussionData extends GResolveDiscussionData {
+  @override
+  final String G__typename;
+  @override
+  final GResolveDiscussionData_markDiscussionCommentAsAnswer?
+      markDiscussionCommentAsAnswer;
+
+  factory _$GResolveDiscussionData(
+          [void Function(GResolveDiscussionDataBuilder)? updates]) =>
+      (new GResolveDiscussionDataBuilder()..update(updates)).build();
+
+  _$GResolveDiscussionData._(
+      {required this.G__typename, this.markDiscussionCommentAsAnswer})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, 'GResolveDiscussionData', 'G__typename');
+  }
+
+  @override
+  GResolveDiscussionData rebuild(
+          void Function(GResolveDiscussionDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GResolveDiscussionDataBuilder toBuilder() =>
+      new GResolveDiscussionDataBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GResolveDiscussionData &&
+        G__typename == other.G__typename &&
+        markDiscussionCommentAsAnswer == other.markDiscussionCommentAsAnswer;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc(0, G__typename.hashCode), markDiscussionCommentAsAnswer.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GResolveDiscussionData')
+          ..add('G__typename', G__typename)
+          ..add('markDiscussionCommentAsAnswer', markDiscussionCommentAsAnswer))
+        .toString();
+  }
+}
+
+class GResolveDiscussionDataBuilder
+    implements Builder<GResolveDiscussionData, GResolveDiscussionDataBuilder> {
+  _$GResolveDiscussionData? _$v;
+
+  String? _G__typename;
+  String? get G__typename => _$this._G__typename;
+  set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder?
+      _markDiscussionCommentAsAnswer;
+  GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder
+      get markDiscussionCommentAsAnswer =>
+          _$this._markDiscussionCommentAsAnswer ??=
+              new GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder();
+  set markDiscussionCommentAsAnswer(
+          GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder?
+              markDiscussionCommentAsAnswer) =>
+      _$this._markDiscussionCommentAsAnswer = markDiscussionCommentAsAnswer;
+
+  GResolveDiscussionDataBuilder() {
+    GResolveDiscussionData._initializeBuilder(this);
+  }
+
+  GResolveDiscussionDataBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _G__typename = $v.G__typename;
+      _markDiscussionCommentAsAnswer =
+          $v.markDiscussionCommentAsAnswer?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GResolveDiscussionData other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GResolveDiscussionData;
+  }
+
+  @override
+  void update(void Function(GResolveDiscussionDataBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GResolveDiscussionData build() {
+    _$GResolveDiscussionData _$result;
+    try {
+      _$result = _$v ??
+          new _$GResolveDiscussionData._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename, 'GResolveDiscussionData', 'G__typename'),
+              markDiscussionCommentAsAnswer:
+                  _markDiscussionCommentAsAnswer?.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'markDiscussionCommentAsAnswer';
+        _markDiscussionCommentAsAnswer?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'GResolveDiscussionData', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GResolveDiscussionData_markDiscussionCommentAsAnswer
+    extends GResolveDiscussionData_markDiscussionCommentAsAnswer {
+  @override
+  final String G__typename;
+
+  factory _$GResolveDiscussionData_markDiscussionCommentAsAnswer(
+          [void Function(
+                  GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder)?
+              updates]) =>
+      (new GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder()
+            ..update(updates))
+          .build();
+
+  _$GResolveDiscussionData_markDiscussionCommentAsAnswer._(
+      {required this.G__typename})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(G__typename,
+        'GResolveDiscussionData_markDiscussionCommentAsAnswer', 'G__typename');
+  }
+
+  @override
+  GResolveDiscussionData_markDiscussionCommentAsAnswer rebuild(
+          void Function(
+                  GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder toBuilder() =>
+      new GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder()
+        ..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GResolveDiscussionData_markDiscussionCommentAsAnswer &&
+        G__typename == other.G__typename;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, G__typename.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(
+            'GResolveDiscussionData_markDiscussionCommentAsAnswer')
+          ..add('G__typename', G__typename))
+        .toString();
+  }
+}
+
+class GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder
+    implements
+        Builder<GResolveDiscussionData_markDiscussionCommentAsAnswer,
+            GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder> {
+  _$GResolveDiscussionData_markDiscussionCommentAsAnswer? _$v;
+
+  String? _G__typename;
+  String? get G__typename => _$this._G__typename;
+  set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder() {
+    GResolveDiscussionData_markDiscussionCommentAsAnswer._initializeBuilder(
+        this);
+  }
+
+  GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _G__typename = $v.G__typename;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GResolveDiscussionData_markDiscussionCommentAsAnswer other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GResolveDiscussionData_markDiscussionCommentAsAnswer;
+  }
+
+  @override
+  void update(
+      void Function(
+              GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder)?
+          updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GResolveDiscussionData_markDiscussionCommentAsAnswer build() {
+    final _$result = _$v ??
+        new _$GResolveDiscussionData_markDiscussionCommentAsAnswer._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                'GResolveDiscussionData_markDiscussionCommentAsAnswer',
+                'G__typename'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GDeleteDiscussionData extends GDeleteDiscussionData {
+  @override
+  final String G__typename;
+  @override
+  final GDeleteDiscussionData_deleteDiscussion? deleteDiscussion;
+
+  factory _$GDeleteDiscussionData(
+          [void Function(GDeleteDiscussionDataBuilder)? updates]) =>
+      (new GDeleteDiscussionDataBuilder()..update(updates)).build();
+
+  _$GDeleteDiscussionData._({required this.G__typename, this.deleteDiscussion})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, 'GDeleteDiscussionData', 'G__typename');
+  }
+
+  @override
+  GDeleteDiscussionData rebuild(
+          void Function(GDeleteDiscussionDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GDeleteDiscussionDataBuilder toBuilder() =>
+      new GDeleteDiscussionDataBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GDeleteDiscussionData &&
+        G__typename == other.G__typename &&
+        deleteDiscussion == other.deleteDiscussion;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, G__typename.hashCode), deleteDiscussion.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GDeleteDiscussionData')
+          ..add('G__typename', G__typename)
+          ..add('deleteDiscussion', deleteDiscussion))
+        .toString();
+  }
+}
+
+class GDeleteDiscussionDataBuilder
+    implements Builder<GDeleteDiscussionData, GDeleteDiscussionDataBuilder> {
+  _$GDeleteDiscussionData? _$v;
+
+  String? _G__typename;
+  String? get G__typename => _$this._G__typename;
+  set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  GDeleteDiscussionData_deleteDiscussionBuilder? _deleteDiscussion;
+  GDeleteDiscussionData_deleteDiscussionBuilder get deleteDiscussion =>
+      _$this._deleteDiscussion ??=
+          new GDeleteDiscussionData_deleteDiscussionBuilder();
+  set deleteDiscussion(
+          GDeleteDiscussionData_deleteDiscussionBuilder? deleteDiscussion) =>
+      _$this._deleteDiscussion = deleteDiscussion;
+
+  GDeleteDiscussionDataBuilder() {
+    GDeleteDiscussionData._initializeBuilder(this);
+  }
+
+  GDeleteDiscussionDataBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _G__typename = $v.G__typename;
+      _deleteDiscussion = $v.deleteDiscussion?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GDeleteDiscussionData other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GDeleteDiscussionData;
+  }
+
+  @override
+  void update(void Function(GDeleteDiscussionDataBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GDeleteDiscussionData build() {
+    _$GDeleteDiscussionData _$result;
+    try {
+      _$result = _$v ??
+          new _$GDeleteDiscussionData._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename, 'GDeleteDiscussionData', 'G__typename'),
+              deleteDiscussion: _deleteDiscussion?.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'deleteDiscussion';
+        _deleteDiscussion?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'GDeleteDiscussionData', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GDeleteDiscussionData_deleteDiscussion
+    extends GDeleteDiscussionData_deleteDiscussion {
+  @override
+  final String G__typename;
+
+  factory _$GDeleteDiscussionData_deleteDiscussion(
+          [void Function(GDeleteDiscussionData_deleteDiscussionBuilder)?
+              updates]) =>
+      (new GDeleteDiscussionData_deleteDiscussionBuilder()..update(updates))
+          .build();
+
+  _$GDeleteDiscussionData_deleteDiscussion._({required this.G__typename})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, 'GDeleteDiscussionData_deleteDiscussion', 'G__typename');
+  }
+
+  @override
+  GDeleteDiscussionData_deleteDiscussion rebuild(
+          void Function(GDeleteDiscussionData_deleteDiscussionBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GDeleteDiscussionData_deleteDiscussionBuilder toBuilder() =>
+      new GDeleteDiscussionData_deleteDiscussionBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GDeleteDiscussionData_deleteDiscussion &&
+        G__typename == other.G__typename;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, G__typename.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(
+            'GDeleteDiscussionData_deleteDiscussion')
+          ..add('G__typename', G__typename))
+        .toString();
+  }
+}
+
+class GDeleteDiscussionData_deleteDiscussionBuilder
+    implements
+        Builder<GDeleteDiscussionData_deleteDiscussion,
+            GDeleteDiscussionData_deleteDiscussionBuilder> {
+  _$GDeleteDiscussionData_deleteDiscussion? _$v;
+
+  String? _G__typename;
+  String? get G__typename => _$this._G__typename;
+  set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  GDeleteDiscussionData_deleteDiscussionBuilder() {
+    GDeleteDiscussionData_deleteDiscussion._initializeBuilder(this);
+  }
+
+  GDeleteDiscussionData_deleteDiscussionBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _G__typename = $v.G__typename;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GDeleteDiscussionData_deleteDiscussion other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GDeleteDiscussionData_deleteDiscussion;
+  }
+
+  @override
+  void update(
+      void Function(GDeleteDiscussionData_deleteDiscussionBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GDeleteDiscussionData_deleteDiscussion build() {
+    final _$result = _$v ??
+        new _$GDeleteDiscussionData_deleteDiscussion._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                'GDeleteDiscussionData_deleteDiscussion', 'G__typename'));
     replace(_$result);
     return _$result;
   }

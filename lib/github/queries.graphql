@@ -53,6 +53,30 @@ mutation AddDiscussionComment(
 	}
 }
 
+mutation ResolveDiscussion(
+	$commentId: ID!
+	$clientMutationId: String
+) {
+	markDiscussionCommentAsAnswer(input: {
+		id: $commentId
+		clientMutationId: $clientMutationId
+	}) {
+		__typename
+	}
+}
+
+mutation DeleteDiscussion(
+	$discussionId: ID!
+	$clientMutationId: String
+) {
+	deleteDiscussion(input: {
+		id: $discussionId
+		clientMutationId: $clientMutationId
+	}) {
+		__typename
+	}
+}
+
 query GetRepository(
 	$owner: String!
 	$name: String!

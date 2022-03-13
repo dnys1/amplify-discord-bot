@@ -245,6 +245,105 @@ abstract class GAddDiscussionCommentData_addDiscussionComment_comment
           json);
 }
 
+abstract class GResolveDiscussionData
+    implements Built<GResolveDiscussionData, GResolveDiscussionDataBuilder> {
+  GResolveDiscussionData._();
+
+  factory GResolveDiscussionData(
+          [Function(GResolveDiscussionDataBuilder b) updates]) =
+      _$GResolveDiscussionData;
+
+  static void _initializeBuilder(GResolveDiscussionDataBuilder b) =>
+      b..G__typename = 'Mutation';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GResolveDiscussionData_markDiscussionCommentAsAnswer?
+      get markDiscussionCommentAsAnswer;
+  static Serializer<GResolveDiscussionData> get serializer =>
+      _$gResolveDiscussionDataSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GResolveDiscussionData.serializer, this)
+          as Map<String, dynamic>);
+  static GResolveDiscussionData? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(GResolveDiscussionData.serializer, json);
+}
+
+abstract class GResolveDiscussionData_markDiscussionCommentAsAnswer
+    implements
+        Built<GResolveDiscussionData_markDiscussionCommentAsAnswer,
+            GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder> {
+  GResolveDiscussionData_markDiscussionCommentAsAnswer._();
+
+  factory GResolveDiscussionData_markDiscussionCommentAsAnswer(
+      [Function(GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder b)
+          updates]) = _$GResolveDiscussionData_markDiscussionCommentAsAnswer;
+
+  static void _initializeBuilder(
+          GResolveDiscussionData_markDiscussionCommentAsAnswerBuilder b) =>
+      b..G__typename = 'MarkDiscussionCommentAsAnswerPayload';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  static Serializer<GResolveDiscussionData_markDiscussionCommentAsAnswer>
+      get serializer =>
+          _$gResolveDiscussionDataMarkDiscussionCommentAsAnswerSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+          GResolveDiscussionData_markDiscussionCommentAsAnswer.serializer, this)
+      as Map<String, dynamic>);
+  static GResolveDiscussionData_markDiscussionCommentAsAnswer? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GResolveDiscussionData_markDiscussionCommentAsAnswer.serializer,
+          json);
+}
+
+abstract class GDeleteDiscussionData
+    implements Built<GDeleteDiscussionData, GDeleteDiscussionDataBuilder> {
+  GDeleteDiscussionData._();
+
+  factory GDeleteDiscussionData(
+          [Function(GDeleteDiscussionDataBuilder b) updates]) =
+      _$GDeleteDiscussionData;
+
+  static void _initializeBuilder(GDeleteDiscussionDataBuilder b) =>
+      b..G__typename = 'Mutation';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GDeleteDiscussionData_deleteDiscussion? get deleteDiscussion;
+  static Serializer<GDeleteDiscussionData> get serializer =>
+      _$gDeleteDiscussionDataSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GDeleteDiscussionData.serializer, this)
+          as Map<String, dynamic>);
+  static GDeleteDiscussionData? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(GDeleteDiscussionData.serializer, json);
+}
+
+abstract class GDeleteDiscussionData_deleteDiscussion
+    implements
+        Built<GDeleteDiscussionData_deleteDiscussion,
+            GDeleteDiscussionData_deleteDiscussionBuilder> {
+  GDeleteDiscussionData_deleteDiscussion._();
+
+  factory GDeleteDiscussionData_deleteDiscussion(
+          [Function(GDeleteDiscussionData_deleteDiscussionBuilder b) updates]) =
+      _$GDeleteDiscussionData_deleteDiscussion;
+
+  static void _initializeBuilder(
+          GDeleteDiscussionData_deleteDiscussionBuilder b) =>
+      b..G__typename = 'DeleteDiscussionPayload';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  static Serializer<GDeleteDiscussionData_deleteDiscussion> get serializer =>
+      _$gDeleteDiscussionDataDeleteDiscussionSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+          GDeleteDiscussionData_deleteDiscussion.serializer, this)
+      as Map<String, dynamic>);
+  static GDeleteDiscussionData_deleteDiscussion? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GDeleteDiscussionData_deleteDiscussion.serializer, json);
+}
+
 abstract class GGetRepositoryData
     implements Built<GGetRepositoryData, GGetRepositoryDataBuilder> {
   GGetRepositoryData._();

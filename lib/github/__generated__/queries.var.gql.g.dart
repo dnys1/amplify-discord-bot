@@ -12,6 +12,10 @@ Serializer<GLockDiscussionVars> _$gLockDiscussionVarsSerializer =
     new _$GLockDiscussionVarsSerializer();
 Serializer<GAddDiscussionCommentVars> _$gAddDiscussionCommentVarsSerializer =
     new _$GAddDiscussionCommentVarsSerializer();
+Serializer<GResolveDiscussionVars> _$gResolveDiscussionVarsSerializer =
+    new _$GResolveDiscussionVarsSerializer();
+Serializer<GDeleteDiscussionVars> _$gDeleteDiscussionVarsSerializer =
+    new _$GDeleteDiscussionVarsSerializer();
 Serializer<GGetRepositoryVars> _$gGetRepositoryVarsSerializer =
     new _$GGetRepositoryVarsSerializer();
 
@@ -214,6 +218,120 @@ class _$GAddDiscussionCommentVarsSerializer
           break;
         case 'replyToId':
           result.replyToId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GResolveDiscussionVarsSerializer
+    implements StructuredSerializer<GResolveDiscussionVars> {
+  @override
+  final Iterable<Type> types = const [
+    GResolveDiscussionVars,
+    _$GResolveDiscussionVars
+  ];
+  @override
+  final String wireName = 'GResolveDiscussionVars';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GResolveDiscussionVars object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'commentId',
+      serializers.serialize(object.commentId,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.clientMutationId;
+    if (value != null) {
+      result
+        ..add('clientMutationId')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  GResolveDiscussionVars deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GResolveDiscussionVarsBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'commentId':
+          result.commentId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'clientMutationId':
+          result.clientMutationId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GDeleteDiscussionVarsSerializer
+    implements StructuredSerializer<GDeleteDiscussionVars> {
+  @override
+  final Iterable<Type> types = const [
+    GDeleteDiscussionVars,
+    _$GDeleteDiscussionVars
+  ];
+  @override
+  final String wireName = 'GDeleteDiscussionVars';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GDeleteDiscussionVars object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'discussionId',
+      serializers.serialize(object.discussionId,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.clientMutationId;
+    if (value != null) {
+      result
+        ..add('clientMutationId')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  GDeleteDiscussionVars deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GDeleteDiscussionVarsBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'discussionId':
+          result.discussionId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'clientMutationId':
+          result.clientMutationId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -632,6 +750,196 @@ class GAddDiscussionCommentVarsBuilder
                 body, 'GAddDiscussionCommentVars', 'body'),
             clientMutationId: clientMutationId,
             replyToId: replyToId);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GResolveDiscussionVars extends GResolveDiscussionVars {
+  @override
+  final String commentId;
+  @override
+  final String? clientMutationId;
+
+  factory _$GResolveDiscussionVars(
+          [void Function(GResolveDiscussionVarsBuilder)? updates]) =>
+      (new GResolveDiscussionVarsBuilder()..update(updates)).build();
+
+  _$GResolveDiscussionVars._({required this.commentId, this.clientMutationId})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        commentId, 'GResolveDiscussionVars', 'commentId');
+  }
+
+  @override
+  GResolveDiscussionVars rebuild(
+          void Function(GResolveDiscussionVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GResolveDiscussionVarsBuilder toBuilder() =>
+      new GResolveDiscussionVarsBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GResolveDiscussionVars &&
+        commentId == other.commentId &&
+        clientMutationId == other.clientMutationId;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, commentId.hashCode), clientMutationId.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GResolveDiscussionVars')
+          ..add('commentId', commentId)
+          ..add('clientMutationId', clientMutationId))
+        .toString();
+  }
+}
+
+class GResolveDiscussionVarsBuilder
+    implements Builder<GResolveDiscussionVars, GResolveDiscussionVarsBuilder> {
+  _$GResolveDiscussionVars? _$v;
+
+  String? _commentId;
+  String? get commentId => _$this._commentId;
+  set commentId(String? commentId) => _$this._commentId = commentId;
+
+  String? _clientMutationId;
+  String? get clientMutationId => _$this._clientMutationId;
+  set clientMutationId(String? clientMutationId) =>
+      _$this._clientMutationId = clientMutationId;
+
+  GResolveDiscussionVarsBuilder();
+
+  GResolveDiscussionVarsBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _commentId = $v.commentId;
+      _clientMutationId = $v.clientMutationId;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GResolveDiscussionVars other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GResolveDiscussionVars;
+  }
+
+  @override
+  void update(void Function(GResolveDiscussionVarsBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GResolveDiscussionVars build() {
+    final _$result = _$v ??
+        new _$GResolveDiscussionVars._(
+            commentId: BuiltValueNullFieldError.checkNotNull(
+                commentId, 'GResolveDiscussionVars', 'commentId'),
+            clientMutationId: clientMutationId);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GDeleteDiscussionVars extends GDeleteDiscussionVars {
+  @override
+  final String discussionId;
+  @override
+  final String? clientMutationId;
+
+  factory _$GDeleteDiscussionVars(
+          [void Function(GDeleteDiscussionVarsBuilder)? updates]) =>
+      (new GDeleteDiscussionVarsBuilder()..update(updates)).build();
+
+  _$GDeleteDiscussionVars._({required this.discussionId, this.clientMutationId})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        discussionId, 'GDeleteDiscussionVars', 'discussionId');
+  }
+
+  @override
+  GDeleteDiscussionVars rebuild(
+          void Function(GDeleteDiscussionVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GDeleteDiscussionVarsBuilder toBuilder() =>
+      new GDeleteDiscussionVarsBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GDeleteDiscussionVars &&
+        discussionId == other.discussionId &&
+        clientMutationId == other.clientMutationId;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, discussionId.hashCode), clientMutationId.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GDeleteDiscussionVars')
+          ..add('discussionId', discussionId)
+          ..add('clientMutationId', clientMutationId))
+        .toString();
+  }
+}
+
+class GDeleteDiscussionVarsBuilder
+    implements Builder<GDeleteDiscussionVars, GDeleteDiscussionVarsBuilder> {
+  _$GDeleteDiscussionVars? _$v;
+
+  String? _discussionId;
+  String? get discussionId => _$this._discussionId;
+  set discussionId(String? discussionId) => _$this._discussionId = discussionId;
+
+  String? _clientMutationId;
+  String? get clientMutationId => _$this._clientMutationId;
+  set clientMutationId(String? clientMutationId) =>
+      _$this._clientMutationId = clientMutationId;
+
+  GDeleteDiscussionVarsBuilder();
+
+  GDeleteDiscussionVarsBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _discussionId = $v.discussionId;
+      _clientMutationId = $v.clientMutationId;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GDeleteDiscussionVars other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GDeleteDiscussionVars;
+  }
+
+  @override
+  void update(void Function(GDeleteDiscussionVarsBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GDeleteDiscussionVars build() {
+    final _$result = _$v ??
+        new _$GDeleteDiscussionVars._(
+            discussionId: BuiltValueNullFieldError.checkNotNull(
+                discussionId, 'GDeleteDiscussionVars', 'discussionId'),
+            clientMutationId: clientMutationId);
     replace(_$result);
     return _$result;
   }

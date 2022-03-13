@@ -6,25 +6,33 @@ import 'package:autothreader_bot/github/__generated__/queries.data.gql.dart'
         GCreateDiscussionData,
         GCreateDiscussionData_createDiscussion,
         GCreateDiscussionData_createDiscussion_discussion,
+        GDeleteDiscussionData,
+        GDeleteDiscussionData_deleteDiscussion,
         GGetRepositoryData,
         GGetRepositoryData_repository,
         GGetRepositoryData_repository_discussionCategories,
         GGetRepositoryData_repository_discussionCategories_nodes,
         GLockDiscussionData,
         GLockDiscussionData_lockLockable,
-        GLockDiscussionData_lockLockable_lockedRecord;
+        GLockDiscussionData_lockLockable_lockedRecord,
+        GResolveDiscussionData,
+        GResolveDiscussionData_markDiscussionCommentAsAnswer;
 import 'package:autothreader_bot/github/__generated__/queries.req.gql.dart'
     show
         GAddDiscussionComment,
         GCreateDiscussion,
+        GDeleteDiscussion,
         GGetRepository,
-        GLockDiscussion;
+        GLockDiscussion,
+        GResolveDiscussion;
 import 'package:autothreader_bot/github/__generated__/queries.var.gql.dart'
     show
         GAddDiscussionCommentVars,
         GCreateDiscussionVars,
+        GDeleteDiscussionVars,
         GGetRepositoryVars,
-        GLockDiscussionVars;
+        GLockDiscussionVars,
+        GResolveDiscussionVars;
 import 'package:autothreader_bot/github/__generated__/schema.schema.gql.dart'
     show
         GAbortQueuedMigrationsInput,
@@ -558,8 +566,12 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GDefaultRepositoryPermissionField,
   GDeleteBranchProtectionRuleInput,
   GDeleteDeploymentInput,
+  GDeleteDiscussion,
   GDeleteDiscussionCommentInput,
+  GDeleteDiscussionData,
+  GDeleteDiscussionData_deleteDiscussion,
   GDeleteDiscussionInput,
+  GDeleteDiscussionVars,
   GDeleteEnvironmentInput,
   GDeleteIpAllowListEntryInput,
   GDeleteIssueCommentInput,
@@ -785,6 +797,10 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GRequestableCheckStatusState,
   GRequiredStatusCheckInput,
   GRerequestCheckSuiteInput,
+  GResolveDiscussion,
+  GResolveDiscussionData,
+  GResolveDiscussionData_markDiscussionCommentAsAnswer,
+  GResolveDiscussionVars,
   GResolveReviewThreadInput,
   GRevokeEnterpriseOrganizationsMigratorRoleInput,
   GRevokeMigratorRoleInput,

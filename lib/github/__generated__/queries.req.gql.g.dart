@@ -12,6 +12,10 @@ Serializer<GLockDiscussion> _$gLockDiscussionSerializer =
     new _$GLockDiscussionSerializer();
 Serializer<GAddDiscussionComment> _$gAddDiscussionCommentSerializer =
     new _$GAddDiscussionCommentSerializer();
+Serializer<GResolveDiscussion> _$gResolveDiscussionSerializer =
+    new _$GResolveDiscussionSerializer();
+Serializer<GDeleteDiscussion> _$gDeleteDiscussionSerializer =
+    new _$GDeleteDiscussionSerializer();
 Serializer<GGetRepository> _$gGetRepositorySerializer =
     new _$GGetRepositorySerializer();
 
@@ -157,6 +161,107 @@ class _$GAddDiscussionCommentSerializer
           result.vars.replace(serializers.deserialize(value,
                   specifiedType: const FullType(_i3.GAddDiscussionCommentVars))!
               as _i3.GAddDiscussionCommentVars);
+          break;
+        case 'operation':
+          result.operation = serializers.deserialize(value,
+              specifiedType: const FullType(_i1.Operation)) as _i1.Operation;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GResolveDiscussionSerializer
+    implements StructuredSerializer<GResolveDiscussion> {
+  @override
+  final Iterable<Type> types = const [GResolveDiscussion, _$GResolveDiscussion];
+  @override
+  final String wireName = 'GResolveDiscussion';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GResolveDiscussion object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'vars',
+      serializers.serialize(object.vars,
+          specifiedType: const FullType(_i3.GResolveDiscussionVars)),
+      'operation',
+      serializers.serialize(object.operation,
+          specifiedType: const FullType(_i1.Operation)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GResolveDiscussion deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GResolveDiscussionBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'vars':
+          result.vars.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GResolveDiscussionVars))!
+              as _i3.GResolveDiscussionVars);
+          break;
+        case 'operation':
+          result.operation = serializers.deserialize(value,
+              specifiedType: const FullType(_i1.Operation)) as _i1.Operation;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GDeleteDiscussionSerializer
+    implements StructuredSerializer<GDeleteDiscussion> {
+  @override
+  final Iterable<Type> types = const [GDeleteDiscussion, _$GDeleteDiscussion];
+  @override
+  final String wireName = 'GDeleteDiscussion';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, GDeleteDiscussion object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'vars',
+      serializers.serialize(object.vars,
+          specifiedType: const FullType(_i3.GDeleteDiscussionVars)),
+      'operation',
+      serializers.serialize(object.operation,
+          specifiedType: const FullType(_i1.Operation)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GDeleteDiscussion deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GDeleteDiscussionBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'vars':
+          result.vars.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GDeleteDiscussionVars))!
+              as _i3.GDeleteDiscussionVars);
           break;
         case 'operation':
           result.operation = serializers.deserialize(value,
@@ -542,6 +647,227 @@ class GAddDiscussionCommentBuilder
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'GAddDiscussionComment', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GResolveDiscussion extends GResolveDiscussion {
+  @override
+  final _i3.GResolveDiscussionVars vars;
+  @override
+  final _i1.Operation operation;
+
+  factory _$GResolveDiscussion(
+          [void Function(GResolveDiscussionBuilder)? updates]) =>
+      (new GResolveDiscussionBuilder()..update(updates)).build();
+
+  _$GResolveDiscussion._({required this.vars, required this.operation})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(vars, 'GResolveDiscussion', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, 'GResolveDiscussion', 'operation');
+  }
+
+  @override
+  GResolveDiscussion rebuild(
+          void Function(GResolveDiscussionBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GResolveDiscussionBuilder toBuilder() =>
+      new GResolveDiscussionBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GResolveDiscussion &&
+        vars == other.vars &&
+        operation == other.operation;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, vars.hashCode), operation.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GResolveDiscussion')
+          ..add('vars', vars)
+          ..add('operation', operation))
+        .toString();
+  }
+}
+
+class GResolveDiscussionBuilder
+    implements Builder<GResolveDiscussion, GResolveDiscussionBuilder> {
+  _$GResolveDiscussion? _$v;
+
+  _i3.GResolveDiscussionVarsBuilder? _vars;
+  _i3.GResolveDiscussionVarsBuilder get vars =>
+      _$this._vars ??= new _i3.GResolveDiscussionVarsBuilder();
+  set vars(_i3.GResolveDiscussionVarsBuilder? vars) => _$this._vars = vars;
+
+  _i1.Operation? _operation;
+  _i1.Operation? get operation => _$this._operation;
+  set operation(_i1.Operation? operation) => _$this._operation = operation;
+
+  GResolveDiscussionBuilder() {
+    GResolveDiscussion._initializeBuilder(this);
+  }
+
+  GResolveDiscussionBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _vars = $v.vars.toBuilder();
+      _operation = $v.operation;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GResolveDiscussion other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GResolveDiscussion;
+  }
+
+  @override
+  void update(void Function(GResolveDiscussionBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GResolveDiscussion build() {
+    _$GResolveDiscussion _$result;
+    try {
+      _$result = _$v ??
+          new _$GResolveDiscussion._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, 'GResolveDiscussion', 'operation'));
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'vars';
+        vars.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'GResolveDiscussion', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GDeleteDiscussion extends GDeleteDiscussion {
+  @override
+  final _i3.GDeleteDiscussionVars vars;
+  @override
+  final _i1.Operation operation;
+
+  factory _$GDeleteDiscussion(
+          [void Function(GDeleteDiscussionBuilder)? updates]) =>
+      (new GDeleteDiscussionBuilder()..update(updates)).build();
+
+  _$GDeleteDiscussion._({required this.vars, required this.operation})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(vars, 'GDeleteDiscussion', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, 'GDeleteDiscussion', 'operation');
+  }
+
+  @override
+  GDeleteDiscussion rebuild(void Function(GDeleteDiscussionBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GDeleteDiscussionBuilder toBuilder() =>
+      new GDeleteDiscussionBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GDeleteDiscussion &&
+        vars == other.vars &&
+        operation == other.operation;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, vars.hashCode), operation.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GDeleteDiscussion')
+          ..add('vars', vars)
+          ..add('operation', operation))
+        .toString();
+  }
+}
+
+class GDeleteDiscussionBuilder
+    implements Builder<GDeleteDiscussion, GDeleteDiscussionBuilder> {
+  _$GDeleteDiscussion? _$v;
+
+  _i3.GDeleteDiscussionVarsBuilder? _vars;
+  _i3.GDeleteDiscussionVarsBuilder get vars =>
+      _$this._vars ??= new _i3.GDeleteDiscussionVarsBuilder();
+  set vars(_i3.GDeleteDiscussionVarsBuilder? vars) => _$this._vars = vars;
+
+  _i1.Operation? _operation;
+  _i1.Operation? get operation => _$this._operation;
+  set operation(_i1.Operation? operation) => _$this._operation = operation;
+
+  GDeleteDiscussionBuilder() {
+    GDeleteDiscussion._initializeBuilder(this);
+  }
+
+  GDeleteDiscussionBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _vars = $v.vars.toBuilder();
+      _operation = $v.operation;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GDeleteDiscussion other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GDeleteDiscussion;
+  }
+
+  @override
+  void update(void Function(GDeleteDiscussionBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GDeleteDiscussion build() {
+    _$GDeleteDiscussion _$result;
+    try {
+      _$result = _$v ??
+          new _$GDeleteDiscussion._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, 'GDeleteDiscussion', 'operation'));
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'vars';
+        vars.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'GDeleteDiscussion', _$failedField, e.toString());
       }
       rethrow;
     }

@@ -70,6 +70,44 @@ abstract class GAddDiscussionCommentVars
           .deserializeWith(GAddDiscussionCommentVars.serializer, json);
 }
 
+abstract class GResolveDiscussionVars
+    implements Built<GResolveDiscussionVars, GResolveDiscussionVarsBuilder> {
+  GResolveDiscussionVars._();
+
+  factory GResolveDiscussionVars(
+          [Function(GResolveDiscussionVarsBuilder b) updates]) =
+      _$GResolveDiscussionVars;
+
+  String get commentId;
+  String? get clientMutationId;
+  static Serializer<GResolveDiscussionVars> get serializer =>
+      _$gResolveDiscussionVarsSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GResolveDiscussionVars.serializer, this)
+          as Map<String, dynamic>);
+  static GResolveDiscussionVars? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(GResolveDiscussionVars.serializer, json);
+}
+
+abstract class GDeleteDiscussionVars
+    implements Built<GDeleteDiscussionVars, GDeleteDiscussionVarsBuilder> {
+  GDeleteDiscussionVars._();
+
+  factory GDeleteDiscussionVars(
+          [Function(GDeleteDiscussionVarsBuilder b) updates]) =
+      _$GDeleteDiscussionVars;
+
+  String get discussionId;
+  String? get clientMutationId;
+  static Serializer<GDeleteDiscussionVars> get serializer =>
+      _$gDeleteDiscussionVarsSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GDeleteDiscussionVars.serializer, this)
+          as Map<String, dynamic>);
+  static GDeleteDiscussionVars? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(GDeleteDiscussionVars.serializer, json);
+}
+
 abstract class GGetRepositoryVars
     implements Built<GGetRepositoryVars, GGetRepositoryVarsBuilder> {
   GGetRepositoryVars._();

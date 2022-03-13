@@ -76,6 +76,48 @@ abstract class GAddDiscussionComment
       _i4.serializers.deserializeWith(GAddDiscussionComment.serializer, json);
 }
 
+abstract class GResolveDiscussion
+    implements Built<GResolveDiscussion, GResolveDiscussionBuilder> {
+  GResolveDiscussion._();
+
+  factory GResolveDiscussion([Function(GResolveDiscussionBuilder b) updates]) =
+      _$GResolveDiscussion;
+
+  static void _initializeBuilder(GResolveDiscussionBuilder b) => b
+    ..operation = _i1.Operation(
+        document: _i2.document, operationName: 'ResolveDiscussion');
+  _i3.GResolveDiscussionVars get vars;
+  _i1.Operation get operation;
+  static Serializer<GResolveDiscussion> get serializer =>
+      _$gResolveDiscussionSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i4.serializers.serializeWith(GResolveDiscussion.serializer, this)
+          as Map<String, dynamic>);
+  static GResolveDiscussion? fromJson(Map<String, dynamic> json) =>
+      _i4.serializers.deserializeWith(GResolveDiscussion.serializer, json);
+}
+
+abstract class GDeleteDiscussion
+    implements Built<GDeleteDiscussion, GDeleteDiscussionBuilder> {
+  GDeleteDiscussion._();
+
+  factory GDeleteDiscussion([Function(GDeleteDiscussionBuilder b) updates]) =
+      _$GDeleteDiscussion;
+
+  static void _initializeBuilder(GDeleteDiscussionBuilder b) => b
+    ..operation = _i1.Operation(
+        document: _i2.document, operationName: 'DeleteDiscussion');
+  _i3.GDeleteDiscussionVars get vars;
+  _i1.Operation get operation;
+  static Serializer<GDeleteDiscussion> get serializer =>
+      _$gDeleteDiscussionSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i4.serializers.serializeWith(GDeleteDiscussion.serializer, this)
+          as Map<String, dynamic>);
+  static GDeleteDiscussion? fromJson(Map<String, dynamic> json) =>
+      _i4.serializers.deserializeWith(GDeleteDiscussion.serializer, json);
+}
+
 abstract class GGetRepository
     implements Built<GGetRepository, GGetRepositoryBuilder> {
   GGetRepository._();

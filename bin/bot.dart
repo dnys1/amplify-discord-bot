@@ -5,6 +5,7 @@ import 'package:autothreader_bot/guild.dart';
 import 'package:autothreader_bot/message.dart';
 import 'package:logging/logging.dart';
 import 'package:nyxx/nyxx.dart';
+import 'package:nyxx_interactions/nyxx_interactions.dart';
 
 Future<void> main() async {
   _configure();
@@ -18,7 +19,10 @@ Future<void> main() async {
 
   final bot = NyxxFactory.createNyxxWebsocket(
     botToken,
-    GatewayIntents.guilds | GatewayIntents.guildMessages,
+    GatewayIntents.guilds |
+        GatewayIntents.guildMessages |
+        GatewayIntents.guildIntegrations |
+        GatewayIntents.guildPresences,
   )
     ..registerPlugin(CliIntegration())
     ..registerPlugin(IgnoreExceptions());
@@ -30,17 +34,24 @@ Future<void> main() async {
   }
 
   bot.onReady.first.then((_) {
-    logger.info('Bot ready');
+    logger.fine('Bot ready');
   });
 
   final githubClient = getEnvClient(logger);
-  bot.eventsWs.onGuildCreate.listen((event) => onGuildCreate(bot, event));
-
   final messageReceiver = MessageReceiver(bot, githubClient);
+
+  bot.eventsWs.onGuildCreate.listen(
+    (event) => onGuildCreate(bot, messageReceiver, event),
+  );
   bot.eventsWs.onMessageReceived.listen(messageReceiver.onMessageReceived);
 }
 
 void _configure() {
+  Logger.root.level = Level.INFO;
+  assert(() {
+    Logger.root.level = Level.ALL;
+    return true;
+  }());
   Logger.root.onRecord.listen((record) {
     print('[${record.level}] (${record.loggerName}) ${record.message}');
     if (record.error != null) {
