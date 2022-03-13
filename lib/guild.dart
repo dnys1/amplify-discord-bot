@@ -1,5 +1,4 @@
 import 'package:autothreader_bot/message.dart';
-import 'package:collection/collection.dart';
 import 'package:logging/logging.dart';
 import 'package:nyxx/nyxx.dart';
 
@@ -15,15 +14,6 @@ Future<void> onGuildCreate(
   for (final channel in guild.channels) {
     bot.channels[channel.id] = channel;
   }
-
-  // final adminRole = guild.roles.values.firstWhereOrNull(
-  //   (role) => role.permissions.administrator,
-  // );
-  // if (adminRole == null) {
-  //   logger.severe('No admin role found for guild $guild');
-  //   return;
-  // }
-  // logger.info('Assigning bot to role: ${adminRole.name}');
 
   // Check bot permissions
   final botMember = await guild.selfMember.getOrDownload();
@@ -44,34 +34,6 @@ Future<void> onGuildCreate(
       );
     }
   }
-
-  // final interactions = IInteractions.create(WebsocketInteractionBackend(bot))
-  //   ..registerSlashCommand(
-  //     SlashCommandBuilder(
-  //       'Autothread',
-  //       null,
-  //       [],
-  //       defaultPermissions: true,
-  //       permissions: [
-  //         CommandPermissionBuilderAbstract.role(adminRole.id),
-  //       ],
-  //       type: SlashCommandType.message,
-  //     )..registerHandler(messageReceiver.onAutothread),
-  //   )
-  //   ..registerSlashCommand(
-  //     SlashCommandBuilder(
-  //       'Resolve',
-  //       null,
-  //       [],
-  //       defaultPermissions: true,
-  //       permissions: [
-  //         CommandPermissionBuilderAbstract.role(adminRole.id),
-  //       ],
-  //       type: SlashCommandType.message,
-  //     )..registerHandler(messageReceiver.resolveThread),
-  //   );
-
-  // await interactions.sync();
 
   bot.setPresence(PresenceBuilder.of(
     status: UserStatus.online,
