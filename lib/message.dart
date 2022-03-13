@@ -28,16 +28,23 @@ class MessageReceiver {
   Future<void> onAutothread(ISlashCommandInteractionEvent event) async {
     await event.acknowledge(hidden: true);
 
+    Future<void> unresolved() => event.respond(
+          MessageBuilder.content('Could not create thread for message'),
+          hidden: true,
+        );
+
     final messageId = event.interaction.targetId;
     if (messageId == null) {
       _logger.severe('No message associated with event: $event');
-      return;
+      return unresolved();
     }
+
+    _logger.info('Autothreading message: $messageId');
 
     final member = event.interaction.memberAuthor;
     if (member == null) {
       _logger.severe('No member associated with event');
-      return;
+      return unresolved();
     }
 
     final channel = await event.interaction.channel.getOrDownload();
@@ -49,24 +56,21 @@ class MessageReceiver {
 
     if (guild == null) {
       _logger.severe('Could not load guild for message $message');
-      return;
+      return unresolved();
     }
     if (message.author.bot) {
       _logger.finer('Skipping ${message.id}: Bot message');
-      return;
+      return unresolved();
     }
 
     // Channel types: https://discord.com/developers/docs/resources/channel#channel-object-channel-types
-    if (channel.channelType == ChannelType.text) {
-      await createThread(message, member, message.content);
-      await event.respond(
-        MessageBuilder.content('Successfully created thread'),
-        hidden: true,
-      );
-      return;
+    if (channel.channelType != ChannelType.text) {
+      return unresolved();
     }
-    await event.respond(
-      MessageBuilder.content('Could not create thread for message'),
+
+    await createThread(message, member, message.content);
+    return event.respond(
+      MessageBuilder.content('Successfully created thread'),
       hidden: true,
     );
   }
@@ -91,9 +95,6 @@ class MessageReceiver {
     if (channel.channelType == ChannelType.guildPublicThread) {
       return updateThread(message, message.content);
     }
-    throw Exception(
-      'Could not process message ${message.id}: Invalid channel',
-    );
   }
 
   Future<void> createThread(
@@ -181,22 +182,27 @@ $content
   Future<void> resolveThread(ISlashCommandInteractionEvent event) async {
     await event.acknowledge(hidden: true);
 
+    Future<void> unresolved() => event.respond(
+          MessageBuilder.content('Could not resolve thread'),
+          hidden: true,
+        );
+
     final messageId = event.interaction.targetId;
     if (messageId == null) {
       _logger.severe('No message associated with event: $event');
-      return;
+      return unresolved();
     }
 
     final thread = await event.interaction.channel.getOrDownload();
     final discussionId = _threads[thread.id];
     if (discussionId == null) {
       _logger.severe('Could not locate discussion for thread ${thread.id}');
-      return;
+      return unresolved();
     }
     final commentId = _commentIds[messageId];
     if (commentId == null) {
       _logger.severe('Could not locate comment for message $messageId');
-      return;
+      return unresolved();
     }
 
     _logger.info('Resolving thread $thread with message $messageId');

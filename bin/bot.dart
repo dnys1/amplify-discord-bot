@@ -44,14 +44,33 @@ Future<void> main() async {
     (event) => onGuildCreate(bot, messageReceiver, event),
   );
   bot.eventsWs.onMessageReceived.listen(messageReceiver.onMessageReceived);
+
+  IInteractions.create(WebsocketInteractionBackend(bot))
+    ..registerSlashCommand(
+      SlashCommandBuilder(
+        'Autothread',
+        null,
+        [],
+        type: SlashCommandType.message,
+      )..registerHandler(messageReceiver.onAutothread),
+    )
+    ..registerSlashCommand(
+      SlashCommandBuilder(
+        'Resolve',
+        null,
+        [],
+        type: SlashCommandType.message,
+      )..registerHandler(messageReceiver.resolveThread),
+    )
+    ..syncOnReady();
 }
 
 void _configure() {
   Logger.root.level = Level.INFO;
-  assert(() {
-    Logger.root.level = Level.ALL;
-    return true;
-  }());
+  // assert(() {
+  //   Logger.root.level = Level.ALL;
+  //   return true;
+  // }());
   Logger.root.onRecord.listen((record) {
     print('[${record.level}] (${record.loggerName}) ${record.message}');
     if (record.error != null) {
