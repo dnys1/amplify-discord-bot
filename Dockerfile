@@ -9,4 +9,6 @@ FROM scratch
 COPY --from=build /runtime/ /
 COPY --from=build /app/bin/bot /app/bin/
 
+EXPOSE 80
+
 CMD ["/app/bin/bot"]
