@@ -119,7 +119,7 @@ class MessageReceiver {
 $content
 ''';
     final discussion = await github.createDiscussion(
-      category: DiscussionCategory.discord,
+      categoryId: DiscussionCategory.discord.value,
       title: threadName,
       body: discussionBody,
       clientMutationId: githubClientId,
@@ -213,8 +213,8 @@ $content
     );
 
     await event.respond(
-      MessageBuilder.content('Resolved'),
-      hidden: true,
+      MessageBuilder.content('Marked as solution')
+        ..replyBuilder = ReplyBuilder(messageId),
     );
   }
 }
