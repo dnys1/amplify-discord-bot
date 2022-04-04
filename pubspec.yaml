@@ -15,9 +15,12 @@ dependencies:
   gql_http_link: ^0.4.2
   gql_transform_link: ^0.2.2
   intl: ^0.17.0
+  jose: ^0.3.2
   logging: ^1.0.2
+  meta: ^1.7.0
   nyxx: ^3.2.7
   nyxx_interactions: ^3.3.0
+  retry: ^3.1.0
 
 dev_dependencies:
   args: ^2.3.0

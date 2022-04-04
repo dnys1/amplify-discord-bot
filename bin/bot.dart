@@ -11,9 +11,21 @@ Future<void> main() async {
   _configure();
   final logger = Logger('main');
 
-  final botToken = Platform.environment['BOT_TOKEN'];
+  logger.info('Got env: ${Platform.environment}');
+
+  const env = 'DISCORD_BOT_TOKEN';
+  final botToken = Platform.environment[env];
   if (botToken == null) {
-    logger.severe('No bot token provided');
+    logger.severe('No $env variable');
+    exit(1);
+  }
+
+  final GithubClient githubClient;
+  try {
+    githubClient = getEnvClient(logger);
+    await githubClient.init();
+  } on Exception catch (e) {
+    logger.severe('Could not create GitHub client', e);
     exit(1);
   }
 
@@ -26,6 +38,7 @@ Future<void> main() async {
   )
     ..registerPlugin(CliIntegration())
     ..registerPlugin(IgnoreExceptions());
+
   try {
     await bot.connect();
   } on Exception catch (e, st) {
@@ -37,9 +50,7 @@ Future<void> main() async {
     logger.fine('Bot ready');
   });
 
-  final githubClient = getEnvClient(logger);
   final messageReceiver = MessageReceiver(bot, githubClient);
-
   bot.eventsWs.onGuildCreate.listen(
     (event) => onGuildCreate(bot, messageReceiver, event),
   );
@@ -56,28 +67,49 @@ Future<void> main() async {
     )
     ..registerSlashCommand(
       SlashCommandBuilder(
-        'Resolve',
+        'Mark-As-Answer',
         null,
         [],
         type: SlashCommandType.message,
       )..registerHandler(messageReceiver.resolveThread),
     )
     ..syncOnReady();
+
+  await _startHttpServer();
 }
 
 void _configure() {
-  Logger.root.level = Level.INFO;
-  // assert(() {
-  //   Logger.root.level = Level.ALL;
-  //   return true;
-  // }());
+  Logger.root.level = Level.FINE;
   Logger.root.onRecord.listen((record) {
-    print('[${record.level}] (${record.loggerName}) ${record.message}');
+    final log = '${record.time} [${record.level}] (${record.loggerName}): '
+        '${record.message}';
+    print(log);
     if (record.error != null) {
       print(record.error);
     }
     if (record.stackTrace != null) {
       print(record.stackTrace);
     }
+  });
+}
+
+/// Whether running in release mode.
+const _isReleaseMode = bool.fromEnvironment('dart.vm.product');
+const _isDebugMode = !_isReleaseMode;
+
+/// Spin up an HTTP server which listens for health check requests from ECS.
+Future<void> _startHttpServer() async {
+  if (_isDebugMode) return;
+  final server = await HttpServer.bind(
+    InternetAddress.anyIPv4,
+    80,
+  );
+  final serverLogger = Logger('HTTP Server');
+  serverLogger.info('Serving on port ${server.port}');
+  server.listen((request) async {
+    serverLogger.info('${request.method} ${request.uri}');
+    request.response.write('OK');
+    await request.response.flush();
+    await request.response.close();
   });
 }
