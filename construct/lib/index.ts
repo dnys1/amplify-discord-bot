@@ -2,9 +2,8 @@ import { Construct } from "constructs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as ecs from "aws-cdk-lib/aws-ecs";
 import * as ecs_patterns from "aws-cdk-lib/aws-ecs-patterns";
+import * as efs from "aws-cdk-lib/aws-efs";
 import * as ssm from "aws-cdk-lib/aws-ssm";
-import * as dynamo from "aws-cdk-lib/aws-dynamodb";
-import { CfnOutput } from "aws-cdk-lib";
 
 /**
  * Properties for deployment of the {@link DiscordBot} to AWS Fargate.
@@ -98,6 +97,32 @@ export class DiscordBot extends Construct {
       vpc,
     });
 
+    const fs = new efs.FileSystem(this, "FileSystem", {
+      vpc: vpc,
+    });
+
+    const task = new ecs.FargateTaskDefinition(this, "TaskDefinition", {
+      cpu: 256,
+      memoryLimitMiB: 512,
+    });
+
+    const volumeName = "efs-volume";
+
+    task.addVolume({
+      name: volumeName,
+      efsVolumeConfiguration: {
+        fileSystemId: fs.fileSystemId,
+      },
+    });
+
+    fs.grant(
+      task.taskRole,
+      "elasticfilesystem:ClientRootAccess",
+      "elasticfilesystem:ClientWrite",
+      "elasticfilesystem:ClientMount",
+      "elasticfilesystem:DescribeMountTargets"
+    );
+
     const secrets: {
       [key: string]: ecs.Secret;
     } = {
@@ -117,6 +142,22 @@ export class DiscordBot extends Construct {
         githubIntegration.githubPrivateKey
       );
     }
+
+    const container = task.addContainer("Container", {
+      image: ecs.ContainerImage.fromAsset(props.dockerPath),
+      portMappings: [{ hostPort: 80, containerPort: 80 }],
+      logging: ecs.AwsLogDriver.awsLogs({
+        streamPrefix: "autothreader",
+      }),
+      secrets,
+    });
+
+    container.addMountPoints({
+      containerPath: "/bot",
+      sourceVolume: volumeName,
+      readOnly: false,
+    });
+
     const fargateService =
       new ecs_patterns.ApplicationLoadBalancedFargateService(
         this,
@@ -126,45 +167,12 @@ export class DiscordBot extends Construct {
           cpu: 256,
           memoryLimitMiB: 512,
           desiredCount: 1,
-          taskImageOptions: {
-            image: ecs.ContainerImage.fromAsset(props.dockerPath),
-            enableLogging: true,
-            secrets,
-          },
+          taskDefinition: task,
           assignPublicIp: false,
           publicLoadBalancer: true,
         }
       );
-    const taskRole = fargateService.taskDefinition.taskRole;
-
-    // Set up DynamoDB Tables
-    // - Threads: The Discord threads, indexed by their snowflake w/ external metadata.
-    // - Messages: The Discord messages, belonging to a particular thread and linked
-    //             to an external GitHub discussion comment potentially.
-    const threadsTable = new dynamo.Table(this, "ThreadsTable", {
-      partitionKey: {
-        name: "id",
-        type: dynamo.AttributeType.STRING,
-      },
-    });
-    const messagesTable = new dynamo.Table(this, "MessagesTable", {
-      partitionKey: {
-        name: "id",
-        type: dynamo.AttributeType.STRING,
-      },
-      sortKey: {
-        name: "threadId",
-        type: dynamo.AttributeType.STRING,
-      },
-    });
-    threadsTable.grantReadWriteData(taskRole);
-    messagesTable.grantReadWriteData(taskRole);
-
-    new CfnOutput(this, "ThreadsTableName", {
-      value: threadsTable.tableName,
-    });
-    new CfnOutput(this, "MessagesTableName", {
-      value: messagesTable.tableName,
-    });
+    const efsPort = ec2.Port.tcp(2049);
+    fs.connections.allowFrom(fargateService.service, efsPort);
   }
 }

@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:autothreader_bot/common.dart';
+import 'package:autothreader_bot/db/db.dart';
 import 'package:autothreader_bot/github.dart';
 import 'package:autothreader_bot/guild.dart';
 import 'package:autothreader_bot/message.dart';
@@ -10,76 +13,76 @@ import 'package:nyxx_interactions/nyxx_interactions.dart';
 Future<void> main() async {
   _configure();
   final logger = Logger('main');
+  await runZonedGuarded(() async {
+    const env = 'DISCORD_BOT_TOKEN';
+    final botToken = Platform.environment[env];
+    if (botToken == null) {
+      logger.severe('No $env variable');
+      exit(1);
+    }
 
-  logger.info('Got env: ${Platform.environment}');
+    final GithubClient githubClient;
+    try {
+      githubClient = getEnvClient(logger);
+      await githubClient.init();
+    } on Exception catch (e) {
+      logger.severe('Could not create GitHub client', e);
+      exit(1);
+    }
 
-  const env = 'DISCORD_BOT_TOKEN';
-  final botToken = Platform.environment[env];
-  if (botToken == null) {
-    logger.severe('No $env variable');
-    exit(1);
-  }
+    final bot = NyxxFactory.createNyxxWebsocket(
+      botToken,
+      GatewayIntents.guilds |
+          GatewayIntents.guildMessages |
+          GatewayIntents.guildIntegrations |
+          GatewayIntents.guildPresences,
+    )..registerPlugin(CliIntegration());
 
-  final GithubClient githubClient;
-  try {
-    githubClient = getEnvClient(logger);
-    await githubClient.init();
-  } on Exception catch (e) {
-    logger.severe('Could not create GitHub client', e);
-    exit(1);
-  }
+    try {
+      await bot.connect();
+    } on Exception catch (e, st) {
+      logger.severe('Could not connect', e, st);
+      exit(1);
+    }
 
-  final bot = NyxxFactory.createNyxxWebsocket(
-    botToken,
-    GatewayIntents.guilds |
-        GatewayIntents.guildMessages |
-        GatewayIntents.guildIntegrations |
-        GatewayIntents.guildPresences,
-  )
-    ..registerPlugin(CliIntegration())
-    ..registerPlugin(IgnoreExceptions());
+    bot.onReady.first.then((_) {
+      logger.fine('Bot ready');
+    });
 
-  try {
-    await bot.connect();
-  } on Exception catch (e, st) {
-    logger.severe('Could not connect', e, st);
-    exit(1);
-  }
+    final db = BotDb();
+    final messageReceiver = MessageReceiver(bot, githubClient, db);
+    bot.eventsWs.onGuildCreate.listen(
+      (event) => onGuildCreate(bot, messageReceiver, event),
+    );
+    bot.eventsWs.onMessageReceived.listen(messageReceiver.onMessageReceived);
 
-  bot.onReady.first.then((_) {
-    logger.fine('Bot ready');
+    IInteractions.create(WebsocketInteractionBackend(bot))
+      ..registerSlashCommand(
+        SlashCommandBuilder(
+          'Autothread',
+          null,
+          [],
+          type: SlashCommandType.message,
+        )..registerHandler(messageReceiver.onAutothread),
+      )
+      ..registerSlashCommand(
+        SlashCommandBuilder(
+          'Mark-As-Answer',
+          null,
+          [],
+          type: SlashCommandType.message,
+        )..registerHandler(messageReceiver.resolveThread),
+      )
+      ..syncOnReady();
+
+    await _startHttpServer();
+  }, (e, st) {
+    logger.severe('Zone unhandled exception', e, st);
   });
-
-  final messageReceiver = MessageReceiver(bot, githubClient);
-  bot.eventsWs.onGuildCreate.listen(
-    (event) => onGuildCreate(bot, messageReceiver, event),
-  );
-  bot.eventsWs.onMessageReceived.listen(messageReceiver.onMessageReceived);
-
-  IInteractions.create(WebsocketInteractionBackend(bot))
-    ..registerSlashCommand(
-      SlashCommandBuilder(
-        'Autothread',
-        null,
-        [],
-        type: SlashCommandType.message,
-      )..registerHandler(messageReceiver.onAutothread),
-    )
-    ..registerSlashCommand(
-      SlashCommandBuilder(
-        'Mark-As-Answer',
-        null,
-        [],
-        type: SlashCommandType.message,
-      )..registerHandler(messageReceiver.resolveThread),
-    )
-    ..syncOnReady();
-
-  await _startHttpServer();
 }
 
 void _configure() {
-  Logger.root.level = Level.FINE;
+  Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
     final log = '${record.time} [${record.level}] (${record.loggerName}): '
         '${record.message}';
@@ -93,13 +96,9 @@ void _configure() {
   });
 }
 
-/// Whether running in release mode.
-const _isReleaseMode = bool.fromEnvironment('dart.vm.product');
-const _isDebugMode = !_isReleaseMode;
-
 /// Spin up an HTTP server which listens for health check requests from ECS.
 Future<void> _startHttpServer() async {
-  if (_isDebugMode) return;
+  if (isDebugMode) return;
   final server = await HttpServer.bind(
     InternetAddress.anyIPv4,
     80,
