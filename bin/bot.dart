@@ -13,72 +13,70 @@ import 'package:nyxx_interactions/nyxx_interactions.dart';
 Future<void> main() async {
   _configure();
   final logger = Logger('main');
-  await runZonedGuarded(() async {
-    const env = 'DISCORD_BOT_TOKEN';
-    final botToken = Platform.environment[env];
-    if (botToken == null) {
-      logger.severe('No $env variable');
-      exit(1);
-    }
+  const env = 'DISCORD_BOT_TOKEN';
+  final botToken = Platform.environment[env];
+  if (botToken == null) {
+    logger.severe('No $env variable');
+    exit(1);
+  }
 
-    final GithubClient githubClient;
-    try {
-      githubClient = getEnvClient(logger);
-      await githubClient.init();
-    } on Exception catch (e) {
-      logger.severe('Could not create GitHub client', e);
-      exit(1);
-    }
+  final GithubClient githubClient;
+  try {
+    githubClient = getEnvClient(logger);
+    await githubClient.init();
+  } on Exception catch (e) {
+    logger.severe('Could not create GitHub client', e);
+    exit(1);
+  }
 
-    final bot = NyxxFactory.createNyxxWebsocket(
-      botToken,
-      GatewayIntents.guilds |
-          GatewayIntents.guildMessages |
-          GatewayIntents.guildIntegrations |
-          GatewayIntents.guildPresences,
-    )..registerPlugin(CliIntegration());
+  final bot = NyxxFactory.createNyxxWebsocket(
+    botToken,
+    GatewayIntents.guilds |
+        GatewayIntents.guildMessages |
+        GatewayIntents.guildIntegrations |
+        GatewayIntents.guildPresences,
+  )
+    ..registerPlugin(CliIntegration())
+    ..registerPlugin(IgnoreExceptions());
 
-    try {
-      await bot.connect();
-    } on Exception catch (e, st) {
-      logger.severe('Could not connect', e, st);
-      exit(1);
-    }
+  try {
+    await bot.connect();
+  } on Exception catch (e, st) {
+    logger.severe('Could not connect', e, st);
+    exit(1);
+  }
 
-    bot.onReady.first.then((_) {
-      logger.fine('Bot ready');
-    });
-
-    final db = BotDb();
-    final messageReceiver = MessageReceiver(bot, githubClient, db);
-    bot.eventsWs.onGuildCreate.listen(
-      (event) => onGuildCreate(bot, messageReceiver, event),
-    );
-    bot.eventsWs.onMessageReceived.listen(messageReceiver.onMessageReceived);
-
-    IInteractions.create(WebsocketInteractionBackend(bot))
-      ..registerSlashCommand(
-        SlashCommandBuilder(
-          'Autothread',
-          null,
-          [],
-          type: SlashCommandType.message,
-        )..registerHandler(messageReceiver.onAutothread),
-      )
-      ..registerSlashCommand(
-        SlashCommandBuilder(
-          'Mark-As-Answer',
-          null,
-          [],
-          type: SlashCommandType.message,
-        )..registerHandler(messageReceiver.resolveThread),
-      )
-      ..syncOnReady();
-
-    await _startHttpServer();
-  }, (e, st) {
-    logger.severe('Zone unhandled exception', e, st);
+  bot.onReady.first.then((_) {
+    logger.fine('Bot ready');
   });
+
+  final db = BotDb();
+  final messageReceiver = MessageReceiver(bot, githubClient, db);
+  bot.eventsWs.onGuildCreate.listen(
+    (event) => onGuildCreate(bot, messageReceiver, event),
+  );
+  bot.eventsWs.onMessageReceived.listen(messageReceiver.onMessageReceived);
+
+  IInteractions.create(WebsocketInteractionBackend(bot))
+    ..registerSlashCommand(
+      SlashCommandBuilder(
+        'Autothread',
+        null,
+        [],
+        type: SlashCommandType.message,
+      )..registerHandler(messageReceiver.onAutothread),
+    )
+    ..registerSlashCommand(
+      SlashCommandBuilder(
+        'Mark-As-Answer',
+        null,
+        [],
+        type: SlashCommandType.message,
+      )..registerHandler(messageReceiver.resolveThread),
+    )
+    ..syncOnReady();
+
+  await _startHttpServer();
 }
 
 void _configure() {

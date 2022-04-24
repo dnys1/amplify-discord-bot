@@ -45,7 +45,10 @@ class BotDb extends _$BotDb {
         if (!await file.exists()) {
           await file.create(recursive: true);
         }
-        return NativeDatabase(file);
+        return NativeDatabase(
+          file,
+          logStatements: true,
+        );
       });
 
   @override

@@ -1,8 +1,11 @@
 FROM dart:beta AS build
 
 WORKDIR /app
-COPY . .
+
+COPY pubspec.* .
 RUN dart pub get
+
+COPY . .
 RUN dart compile exe bin/bot.dart -o bin/bot
 
 FROM alpine:latest
@@ -14,4 +17,4 @@ RUN apk add sqlite-dev
 
 EXPOSE 80
 
-CMD ["/app/bin/bot"]
+CMD ["/usr/bin/time", "/app/bin/bot"]
