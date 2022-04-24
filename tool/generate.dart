@@ -17,8 +17,9 @@ Future<void> main(List<String> args) async {
   final owner = repo[0];
   final name = repo[1];
   final client = getEnvClient();
+  await client.init();
 
-  final repositoryData = await client.getRepository(owner: owner, name: name);
+  final repositoryData = await client.getRepository(GithubRepo(owner, name));
   final repositoryId = repositoryData.repository?.id;
   final discussionCategories =
       repositoryData.repository?.discussionCategories.nodes;
@@ -31,110 +32,6 @@ Future<void> main(List<String> args) async {
   final sb = StringBuffer('''
 // Generated code. Do not modify.
 // Run tool/generate.dart to re-generate.
-
-import 'package:autothreader_bot/github/__generated__/queries.data.gql.dart';
-import 'package:autothreader_bot/github/__generated__/queries.req.gql.dart';
-import 'package:autothreader_bot/github.dart';
-import 'package:gql_exec/gql_exec.dart';
-
-extension RepoOps on GithubClient {
-  Future<GCreateDiscussionData> createDiscussion({
-    required DiscussionCategory category,
-    required String title,
-    required String body,
-    String? clientMutationId,
-  }) async {
-    final req = GCreateDiscussion(
-      (b) => b.vars
-        ..repositoryId = repositoryId
-        ..categoryId = category.value
-        ..title = title
-        ..body = body
-        ..clientMutationId = clientMutationId,
-    );
-    final resp = await client
-        .request(Request(
-          operation: req.operation,
-          variables: req.vars.toJson(),
-        ))
-        .first;
-
-    final data = resp.data;
-    final errors = resp.errors;
-    if (data == null || (errors != null && errors.isNotEmpty)) {
-      throwError(resp);
-    }
-
-    final discussionData = GCreateDiscussionData.fromJson(data)!;
-    final discussionId = discussionData.createDiscussion?.discussion?.id;
-    if (discussionId == null) {
-      throwError(resp);
-    }
-
-    final lockReq = GLockDiscussion(
-      (b) => b.vars
-        ..discussionId = discussionId
-        ..clientMutationId = clientMutationId,
-    );
-    final lockResp = await client
-        .request(Request(
-          operation: lockReq.operation,
-          variables: lockReq.vars.toJson(),
-        ))
-        .first;
-
-    final lockData = lockResp.data;
-    final lockErrors = lockResp.errors;
-    if (lockData == null || (lockErrors != null && lockErrors.isNotEmpty)) {
-      GithubClient.logger.severe(
-        'Could not lock \$discussionId',
-        convert(lockResp.response),
-      );
-      return discussionData;
-    }
-    final locked = GLockDiscussionData.fromJson(lockData)!
-        .lockLockable
-        ?.lockedRecord
-        ?.locked;
-    if (locked == null || !locked) {
-      GithubClient.logger.severe(
-        'Could not lock \$discussionId',
-        convert(lockResp.response),
-      );
-    }
-
-    return discussionData;
-  }
-
-  Future<GAddDiscussionCommentData> addDiscussionComment({
-    required String discussionId,
-    required String body,
-    String? clientMutationId,
-    String? replyToId,
-  }) async {
-    final req = GAddDiscussionComment(
-      (b) => b.vars
-        ..discussionId = discussionId
-        ..body = body
-        ..clientMutationId = clientMutationId
-        ..replyToId = replyToId,
-    );
-    final resp = await client
-        .request(Request(
-          operation: req.operation,
-          variables: req.vars.toJson(),
-        ))
-        .first;
-
-    final data = resp.data;
-    final errors = resp.errors;
-    if (data == null || (errors != null && errors.isNotEmpty)) {
-      throwError(resp);
-    }
-
-    return GAddDiscussionCommentData.fromJson(data)!;
-  }
-}
 
 class DiscussionCategory {
   const DiscussionCategory._(this.name, this.value);
@@ -154,8 +51,6 @@ class DiscussionCategory {
   sb
     ..writeln('}')
     ..writeln();
-
-  sb.writeln("const repositoryId = '$repositoryId';");
 
   File(filename)
     ..createSync()
