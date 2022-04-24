@@ -8,13 +8,13 @@ RUN dart pub get
 COPY . .
 RUN dart compile exe bin/bot.dart -o bin/bot
 
-FROM alpine:latest
+FROM public.ecr.aws/debian/debian:stable-slim
 COPY --from=build /runtime/ /
 COPY --from=build /app/bin/bot /app/bin/
 
 # Install sqlite3 library
-RUN apk add sqlite-dev
+RUN apt update && apt install -y sqlite3 libsqlite3-dev
 
 EXPOSE 80
 
-CMD ["/usr/bin/time", "/app/bin/bot"]
+CMD /app/bin/bot && echo $?
